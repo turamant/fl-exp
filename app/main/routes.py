@@ -9,20 +9,21 @@ from app.models import db
 
 @bp.route('/')
 def index():
-    # Реализация главной страницы приложения
-    # Загружаем все карточки и отображаем их на главной странице приложения
-    # Если пользователь авторизован, добавляем имя пользователя в шаблон
-    # Если пользователь не авторизован, отображаем пустую строку в шаблоне
-    flashcards = Flashcard.query.all()  
-    
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    pagination = Flashcard.query.paginate(page=page, per_page=per_page)
+    flashcards = pagination.items
+
     if current_user.is_authenticated:
         return render_template('main/index.html',
                                username=current_user.username,
-                               flashcards=flashcards)
+                               flashcards=flashcards,
+                               pagination=pagination)
     else:
         return render_template('main/index.html', 
                                username=None,
-                               flashcards=flashcards)
+                               flashcards=flashcards,
+                               pagination=pagination)
     
 
 @bp.route('/add_word', methods=['GET', 'POST'])
@@ -35,7 +36,7 @@ def add_word():
         db.session.add(flashcard)
         db.session.commit()
         return redirect(url_for('main.index'))
-    return render_template('main/add_word.html')
+    return render_template('main/add_word.html', username=current_user.username)
 
 
 @bp.route('/study', methods=['GET'])
@@ -70,7 +71,7 @@ def study():
     return render_template('study/study.html', question=question, options=answer_options, 
                            correct_answer=correct_answer, total_words=total_words,
                            total_correct=session.get('total_correct', 0), 
-                           current_index=current_index + 1)
+                           current_index=current_index + 1, username=current_user.username)
 
     
 @bp.route('/check_answer', methods=['POST'])
@@ -100,7 +101,9 @@ def finish():
     # Сохраняем результаты в сессии
     session['finish_message'] = message
 
-    return render_template('study/finish.html', message=message)
+    return render_template('study/finish.html',
+                           message=message,
+                           username=current_user.username)
 
 
 @bp.route('/reset_session', methods=['GET'])
@@ -147,7 +150,11 @@ def study_reverse():
     
     session['current_index'] = current_index + 1
     
-    return render_template('study/study.html', question=question, options=answer_options, 
-                           correct_answer=correct_answer, total_words=total_words,
+    return render_template('study/study.html',
+                           question=question,
+                           options=answer_options,
+                           correct_answer=correct_answer,
+                           total_words=total_words,
                            total_correct=session.get('total_correct', 0), 
-                           current_index=current_index + 1)
+                           current_index=current_index + 1,
+                           username=current_user.username)

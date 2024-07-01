@@ -1,0 +1,20 @@
+.notification.is-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-width: 10em;
+}
+
+.notification .delete {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.invalid-feedback {
+    color: #ff6b6b; /* розовый цвет */
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }

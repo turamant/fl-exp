@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flashcards{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav class="navbar is-dark">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="{{ url_for('main.index') }}">Flashcards</a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    {% if username %}
+                    <a class="navbar-item" href="{{ url_for('main.add_word') }}">Добавить слово</a>
+                    <a class="navbar-item" href="{{ url_for('main.study') }}">Изучить слова</a>
+                    <a class="navbar-item" href="{{ url_for('main.study_reverse') }}">Study Reverse</a>
+                    <a class="navbar-item" href="{{ url_for('auth.logout') }}">Выйти</a>
+                    {% else %}
+                        <a class="navbar-item" href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
+                        <a class="navbar-item" href="{{ url_for('auth.login') }}">Войти</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+    
+    <section class="section">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="notification is-{{ category }} is-small" data-notification-id="{{ loop.index }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+    </section>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

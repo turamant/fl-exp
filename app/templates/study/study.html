@@ -1,40 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Study</title>
-</head>
-<body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <h1>Test Your Knowledge</h1>
-    <p>Question: {{ question }}</p>
-    
-    <p>Total Words: {{ total_words }}</p>
-    <p>Correct Answers: {{ total_correct }}</p>
-    
-    <form id="answerForm" action="{{ url_for('main.check_answer') }}" method="post">
-        <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
-        <input type="hidden" name="total_correct" value="{{ total_correct }}">  <!-- Добавлено для передачи total_correct -->
-        
-        {% for option in options %}
-            <button type="button" name="answer" value="{{ option }}" onclick="submitAnswer(this)">{{ option }}</button>
-        {% endfor %}
-    </form>
+{% extends 'base.html' %}
 
-    <script>
-        function submitAnswer(button) {
-            document.getElementById("answerForm").innerHTML += '<input type="hidden" name="answer" value="' + button.value + '">';
-            document.getElementById("answerForm").submit();
-        }
-    </script>
-</body>
-</html>
+{% block title %}Study{% endblock %}
+
+{% block content %}
+<section class="section">
+<div class="container">
+    <h1 class="title">Проверка твоих знаний</h1>
+    <div class="box">
+        <p class="title">{{ question }}</p>
+
+        <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+                <p class="heading">Всего слов</p>
+                <p class="subtitle">{{ total_words }}</p>
+            </div>
+            <div class="control">
+                <p class="heading">Правильных ответов</p>
+                <p class="subtitle">{{ total_correct }}</p>
+            </div>
+        </div>
+
+        <form id="answerForm" action="{{ url_for('main.check_answer') }}" method="post">
+            <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+            <input type="hidden" name="total_correct" value="{{ total_correct }}">
+
+            {% for option in options %}
+                <button type="button" class="button is-primary" name="answer" value="{{ option }}" onclick="submitAnswer(this)">{{ option }}</button>
+            {% endfor %}
+        </form>
+    </div>
+</div>
+</section>
+
+
+{% endblock %}
+
 
 
