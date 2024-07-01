@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Flashcards</title>
+</head>
+<body>
+    <h1>Flashcards</h1>
+    
+    
+    {% if username %}
+        <p>Привет, {{ username }}! Добро пожаловать обратно!</p>
+        <li><a href="{{ url_for('auth.logout') }}">Выйти</a></li>
+        <li><a href="{{ url_for('main.add_word') }}">Добавить слово</a></li>
+        <li><a href="{{ url_for('main.study') }}">Изучить слова</a></li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.study_reverse') }}">Study Reverse</a>
+        </li>
+        
+        
+
+    {% else %}
+        <p>Здесь вы можете зарегистрироваться или войти:</p>
+        
+        <ul>
+            <li><a href="{{ url_for('auth.register') }}">Зарегистрироваться</a></li>
+            <li><a href="{{ url_for('auth.login') }}">Войти</a></li>
+        </ul>
+    {% endif %}
+    
+    <ul>
+        {% for card in flashcards %}
+            <li>{{ card.question }} - {{ card.answer }}</li>
+        {% endfor %}
+    </ul>
+    {% if finish_message %}
+        <div class="alert alert-info">{{ finish_message }}</div>
+    {% endif %}
+    <div class="alert alert-info">!!{{ finish_message }}</div>
+    
+</body>
+</html>
+
