@@ -21,6 +21,7 @@
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
                     {% if username %}
+                    <a class="navbar-item" href="{{ url_for('auth.user_profile')}}">Профиль</a>
                     <a class="navbar-item" href="{{ url_for('main.add_word') }}">Добавить слово</a>
                     <a class="navbar-item" href="{{ url_for('main.study') }}">Изучить слова</a>
                     <a class="navbar-item" href="{{ url_for('main.study_reverse') }}">Study Reverse</a>

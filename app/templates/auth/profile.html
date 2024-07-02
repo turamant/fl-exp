@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<section class="section custom-container">
+    <div class="container">
+        <h1 class="title">User Profile</h1>
+        <div class="content">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+        
+        <h2 class="title is-4">Learning Scores:</h2>
+        <ul class="learning-scores">
+            {% for score in scores %}
+                <li class="box score-item">
+                    <p><strong>Date:</strong> {{ score.date }}</p>
+                    <p><strong>Total Correct:</strong> {{ score.total_correct }}</p>
+                    <form action="{{ url_for('auth.delete_score', score_id=score.id) }}" method="post">
+                        <button class="button is-danger" type="submit">Delete Score</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{% endblock %}
+

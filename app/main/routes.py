@@ -4,7 +4,8 @@ from flask import (render_template, request,
 from app.main import bp
 from app.models import Flashcard
 from flask_login import current_user, login_required, logout_user
-from app.models import db
+from app.models import db, Score
+from datetime import datetime
 
 
 @bp.route('/')
@@ -108,6 +109,12 @@ def finish():
 
 @bp.route('/reset_session', methods=['GET'])
 def reset_session():
+    # Получаем результаты из сессии
+    total_correct = session.get('total_correct', 0)
+    # Создаем новую запись в таблице Score
+    new_score = Score(user_id=current_user.id, date=datetime.now(), total_correct=total_correct)
+    db.session.add(new_score)
+    db.session.commit()
     # Сбрасываем данные из сессии, кроме информации о пользователе
     session.pop('current_index', None)
     session.pop('total_correct', None)

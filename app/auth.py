@@ -1,9 +1,10 @@
 from flask import (Blueprint, render_template, redirect,
                    url_for, flash, request, session)
 from werkzeug.security import generate_password_hash
-from app.models import db, User
+from app.models import db, User, Score
 from werkzeug.security import check_password_hash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
+from datetime import datetime
 
 
 auth = Blueprint('auth', __name__)
@@ -52,3 +53,29 @@ def register():
         return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html')
+
+
+@auth.route('/profile', methods=['GET'])
+@login_required
+def user_profile():
+    user = User.query.get(current_user.id)
+
+    if not user:
+        return "User not found", 404
+    
+    scores = Score.query.filter_by(user_id=current_user.id).order_by(Score.date.desc()).all()
+
+    return render_template('auth/profile.html', user=user, scores=scores, username=current_user.username,)
+
+@auth.route('/delete_score/<int:score_id>', methods=['POST'])
+@login_required
+def delete_score(score_id):
+    score = Score.query.get(score_id)
+
+    if not score or score.user_id != current_user.id:
+        return "Score not found or unauthorized", 404
+
+    db.session.delete(score)
+    db.session.commit()
+
+    return redirect(url_for('auth.user_profile'))
