@@ -18,7 +18,7 @@ function checkWordExists(fieldId) {
         .then(data => {
             if (data.exists) {
                 field.classList.add('is-invalid');
-                feedbackElement.textContent = 'Это слово уже существует.';
+                feedbackElement.textContent = 'This word already exists.';
                 feedbackElement.classList.add('invalid-feedback');
                 submitBtn.disabled = true;
             } else {
@@ -52,3 +52,24 @@ function fadeOutNotifications() {
   document.addEventListener('DOMContentLoaded', function() {
     fadeOutNotifications();
   });
+
+
+function deleteWord(wordId) {
+  if (confirm('Вы уверены, что хотите удалить это слово?')) {
+      fetch(`/flashcards/delete/${wordId}`, {
+          method: 'DELETE',
+      })
+      .then(response => {
+          if (response.ok) {
+              const row = document.getElementById(`word_${wordId}`);
+              row.remove();
+          } else {
+              console.error('Ошибка при удалении слова');
+          }
+      })
+      .catch(error => {
+          console.error('Ошибка при удалении слова:', error);
+      });
+  }
+}
+

@@ -18,3 +18,21 @@
     opacity: 0;
     transition: opacity 1s ease-out;
   }
+
+/* стили для кнопки "Удалить" */
+.delete-word-btn {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.delete-word-btn:hover::after {
+    content: "Опасно";
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+}

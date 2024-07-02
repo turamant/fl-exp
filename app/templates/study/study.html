@@ -3,19 +3,19 @@
 {% block title %}Study{% endblock %}
 
 {% block content %}
-<section class="section">
+<section class="section custom-container">
 <div class="container">
-    <h1 class="title">Проверка твоих знаний</h1>
+    <h1 class="title">Testing your knowledge</h1>
     <div class="box">
         <p class="title">{{ question }}</p>
 
         <div class="field is-grouped is-grouped-multiline">
             <div class="control">
-                <p class="heading">Всего слов</p>
+                <p class="heading">Total words</p>
                 <p class="subtitle">{{ total_words }}</p>
             </div>
             <div class="control">
-                <p class="heading">Правильных ответов</p>
+                <p class="heading">Correct answers</p>
                 <p class="subtitle">{{ total_correct }}</p>
             </div>
         </div>
@@ -31,8 +31,6 @@
     </div>
 </div>
 </section>
-
-
 {% endblock %}
 
 

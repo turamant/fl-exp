@@ -20,15 +20,16 @@
             </div>
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
+                    <a class="navbar-item" href="{{ url_for('main.help') }}">Help</a>
                     {% if username %}
-                    <a class="navbar-item" href="{{ url_for('auth.user_profile')}}">Профиль</a>
-                    <a class="navbar-item" href="{{ url_for('main.add_word') }}">Добавить слово</a>
-                    <a class="navbar-item" href="{{ url_for('main.study') }}">Изучить слова</a>
+                    <a class="navbar-item" href="{{ url_for('auth.user_profile')}}">Profile</a>
+                    <a class="navbar-item" href="{{ url_for('main.add_word') }}">Add word</a>
+                    <a class="navbar-item" href="{{ url_for('main.study') }}">Study</a>
                     <a class="navbar-item" href="{{ url_for('main.study_reverse') }}">Study Reverse</a>
-                    <a class="navbar-item" href="{{ url_for('auth.logout') }}">Выйти</a>
+                    <a class="navbar-item" href="{{ url_for('auth.logout') }}">Quit</a>
                     {% else %}
-                        <a class="navbar-item" href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
-                        <a class="navbar-item" href="{{ url_for('auth.login') }}">Войти</a>
+                        <a class="navbar-item" href="{{ url_for('auth.register') }}">Register</a>
+                        <a class="navbar-item" href="{{ url_for('auth.login') }}">Sign In</a>
                     {% endif %}
                 </div>
             </div>
@@ -51,6 +52,12 @@
             {% endwith %}
         </div>
     </section>
+    <section class="section">
+        <div class="container">
+            <p class="has-text-centered">
+                &copy; 2024 <a href="https://github.com/turamant">Turamant</a>
+            </p>
+        </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

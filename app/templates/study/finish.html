@@ -3,6 +3,7 @@
 {% block title %}Finish{% endblock %}
 
 {% block content %}
+<section class="section custom-container">
 <div class="container">
     <div class="box">
         <h1 class="title">Test Finished!</h1>
@@ -10,4 +11,5 @@
         <a href="{{ url_for('main.reset_session') }}" class="button is-primary">Reset Session</a>
     </div>
 </div>
+</section>
 {% endblock %}

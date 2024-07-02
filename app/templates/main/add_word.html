@@ -3,6 +3,7 @@
 {% block title %}Add Word{% endblock %}
 
 {% block content %}
+<section class="section custom-container">
 <div class="container">
     <h1 class="title">Add a New Word</h1>
     <form action="{{ url_for('main.add_word') }}" method="post" id="add-form" class="form">
@@ -27,5 +28,5 @@
         </div>
     </form>
 </div>
-
+</section>
 {% endblock %}

@@ -3,23 +3,28 @@
 {% block title %}Flashcards - Home{% endblock %}
 
 {% block content %}
+<section class="section custom-container">
+    <h2 class="title">Flashcards</h2>
     <div class="container">
         <div class="box">
-            <h2 class="subtitle">Flashcards:</h2>
             <table class="table is-striped is-hoverable is-fullwidth">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Question</th>
                         <th>Answer</th>
+                        <th>Action</th> <!-- Добавлен заголовок для кнопки "Удалить" -->
                     </tr>
                 </thead>
                 <tbody>
                     {% for card in flashcards %}
-                    <tr>
+                    <tr id="word_{{ card.id }}"> <!-- Добавлен идентификатор для каждой строки слова -->
                         <td>{{ loop.index + (pagination.page - 1) * pagination.per_page }}</td>
                         <td>{{ card.question }}</td>
                         <td>{{ card.answer }}</td>
+                        <td>
+                            <button onclick="deleteWord({{ card.id }})" class="button delete-word-btn">delete</button> <!-- Добавлена кнопка "Удалить" -->
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -41,8 +46,8 @@
         <div class="notification is-info">{{ finish_message }}</div>
         {% endif %}
     </div>
+</section>
 {% endblock %}
-
 
 
 

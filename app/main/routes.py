@@ -8,10 +8,18 @@ from app.models import db, Score
 from datetime import datetime
 
 
+@bp.route('/help')
+def help():
+    if current_user.is_authenticated:
+        return render_template('main/help.html', username=current_user.username)
+    
+    else:
+        return render_template('main/help.html', username=None)
+
 @bp.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    per_page = 10
+    per_page = 7
     pagination = Flashcard.query.paginate(page=page, per_page=per_page)
     flashcards = pagination.items
 
@@ -165,3 +173,13 @@ def study_reverse():
                            total_correct=session.get('total_correct', 0), 
                            current_index=current_index + 1,
                            username=current_user.username)
+
+
+@bp.route('/flashcards/delete/<int:word_id>', methods=['DELETE'])
+def delete_word(word_id):
+    word = Flashcard.query.get(word_id)
+    if word:
+        db.session.delete(word)
+        db.session.commit()
+        return jsonify({'message': 'Слово успешно удалено'})
+    return jsonify({'error': 'Слово не найдено'}), 404
